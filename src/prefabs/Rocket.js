@@ -1,46 +1,33 @@
 //Rocket Prefab
 class Rocket extends Phaser.GameObjects.Sprite {
-    constructor (scene,x,y,texture,frame){
+    constructor (scene,x,y,texture,frame,position){
         super (scene,x,y,texture,frame);
 
         // add object to existing scene
         scene.add.existing (this);
-        this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
-        this.isFiring = false; // track rocket's firing status
         this.moveSpeed = 2;
-    }
-
-    update(){
-        // left/right movement]
-        if (!this.isFiring) {
-            if (keyLEFT.isDown && this.x >= borderUISize + this.width){
-                this.x -= this.moveSpeed;
-            }
-            else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
-                this.x += this.moveSpeed;
-            }
-        }
-
-        // fire button
-        if (Phaser.Input.Keyboard.JustDown (keyF) &&!this.isFiring){
-            this.isFiring = true;
-            this.sfxRocket.play(); //play sfx
-        }
-
-        // if fired, move up
-        if (this.isFiring && this.y >= borderUISize *3 + borderPadding){
-            this.y -= this.moveSpeed;
-        }
-
-        // reset
-        if (this.y <= borderUISize * 3 + borderPadding) {
-            this.reset();
-        }
+        this.players = position;
     }
     
-    // reset rocket to ground
-    reset(){
-        this.isFiring = false;
-            this.y = game.config.height - borderUISize - borderPadding;
+    update(){
+        // left/right movement
+        if (this.players == 1 ){
+            if (keyUP.isDown && this.y >= borderUISize + this.width){
+                this.y -= this.moveSpeed;
+            }
+            else if (keyDOWN.isDown  && this.y <= game.config.height - borderUISize - this.width) {
+                this.y += this.moveSpeed;
+            }
+        }
+        if (this.players == 2 ){
+            if (keyW.isDown && this.y >= borderUISize + this.width){
+                this.y -= this.moveSpeed;
+            }
+            else if (keyS.isDown  && this.y <= game.config.height - borderUISize - this.width) {
+                this.y += this.moveSpeed;
+            }
+        }
     }
+
 }
+
